@@ -16,6 +16,7 @@
 #include "example.h"
 #include "vector.hh"
 #include "matrix.hh"
+#include "rectangle.hh"
 #include "../include/lacze_do_gnuplota.hh"
 
 /*!
@@ -76,6 +77,26 @@ void PrzykladZapisuWspolrzednychDoStrumienia( std::ostream&     StrmWy,
 
 
 /*!
+*  Funkcja zapisu wierzcholkow do podanego pliku wyjsciowego
+*/
+bool SaveFile(const char *File,const Rectangle &tmp){
+       std::fstream outfile;
+
+       outfile.open(File);
+       if (!outfile.is_open())  {
+         std::cerr << ":(  Operacja otwarcia do zapisu \"" << *File << "\"" << std::endl
+	     << ":(  nie powiodla sie." << std::endl;
+         return false;
+       }
+       outfile << tmp;
+       outfile << tmp[0];
+       outfile.close();
+
+       return !outfile.fail();
+}
+
+
+/*!
  * Przyklad zapisu wspolrzednych zbioru punktow do pliku, z ktorego
  * dane odczyta program gnuplot i narysuje je w swoim oknie graficznym.
  * \param[in] sNazwaPliku - nazwa pliku, do którego zostana zapisane
@@ -107,7 +128,7 @@ bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku,
 }
 
 int main() {
-  std::cout << "Project Rotation 2D based on C++ Boiler Plate v"
+  std::cout << "Project 2D Rotation based on C++ Boiler Plate v"
             << PROJECT_VERSION_MAJOR /*duże zmiany, najczęściej brak kompatybilności wstecz */
             << "."
             << PROJECT_VERSION_MINOR /* istotne zmiany */
@@ -131,6 +152,19 @@ int main() {
   double argumentsM[][SIZE] = {{1.0, 2.0},{3.0, 4.0}};
   Matrix tmpM2 = Matrix(argumentsM);
   std::cout << "Matrix - konstruktor parametryczny:\n" << tmpM2 << std::endl;
+
+  std::cout << "Rectangle:" << std::endl;
+  Rectangle tmpR1 = Rectangle();
+  std::cout << "Rectangle - konstruktor bezparametryczny:\n" << tmpR1 << std::endl;
+  double arg1[] = {10.0, 20.0};
+  double arg2[] = {50.0, 20.0};
+  double arg3[] = {50.0, 60.0};
+  double arg4[] = {10.0, 60.0};
+  Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+  Vector argumentsR[] = {V1,V2,V3,V4};
+  Rectangle tmpR2 = Rectangle(argumentsR);
+  std::cout << "Rectangle - konstruktor parametryczny:\n" << tmpR2 << std::endl;
+
 
     PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
                                 // rysunku prostokata
@@ -167,6 +201,51 @@ int main() {
   Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
   std::cin.ignore(100000,'\n');
+
+  Vector Translation;
+  Matrix Rotation;
+  double tmp[] = {50.0,50.0};
+  Rectangle tmpR3;
+  
+  Translation = Vector(tmp);
+  Lacze.ZmienTrybRys(PzG::TR_2D);
+
+  Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
+  std::cout << tmpR2 << std::endl;
+  if(!SaveFile("../datasets/prostokat.dat",tmpR2))
+       return 1;
+  Lacze.Rysuj();
+  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+  std::cin.ignore(100000,'\n');
+
+  tmpR2.Translate(Translation);
+  std::cout << tmpR2;
+  if(!SaveFile("../datasets/prostokat.dat",tmpR2))
+    return 1;
+  Lacze.Rysuj();
+  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+  std::cin.ignore(100000,'\n');
+
+
+  Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
+  tmpR3 = Rectangle(argumentsR);
+  std::cout << tmpR3 << std::endl;
+  if(!SaveFile("../datasets/prostokat.dat",tmpR3))
+       return 1;
+  Lacze.Rysuj();
+  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+  std::cin.ignore(100000,'\n');
+
+  Rotation.create_rotation(M_PI/3);
+  tmpR3.Rotate(Rotation);
+  std::cout << tmpR3 << std::endl;
+  if(!SaveFile("../datasets/prostokat.dat",tmpR3))
+       return 1;
+  Lacze.Rysuj();
+  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+  std::cin.ignore(100000,'\n');
+
+
 
   // Z bazy projektu-wydmuszki Boiler Plate C++:
   // Bring in the dummy class from the example source,

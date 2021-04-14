@@ -4,7 +4,20 @@
 #include "vector.hh"
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
+
+
+
+/*!
+ *  Klasa modeluje pojecie macierzy kwadratowej ( w tym przypadku 2x2).
+ *  Liczby macierzy sa przechowywane jako tablica dwuwymiarowa typu
+ *  double. Przeciazenia operatorow pozwalaja na modyfikacje i 
+ *  dostep do danych macierzy.
+ * 
+ *  Metody pozwalaja na tworzenie macierzy obrotu oraz iloczyn macierzy
+ *  z wektorem.
+ */
 class Matrix {
 
 private:
@@ -18,6 +31,8 @@ public:
     Vector operator * (Vector tmp);           // Operator mnożenia przez wektor
 
     Matrix operator + (Matrix tmp);
+
+    void create_rotation (double angle);
 
     double  &operator () (unsigned int row, unsigned int column);
     
@@ -145,6 +160,25 @@ Matrix Matrix::operator + (Matrix tmp) {
     return result;
 }
 
+
+
+/******************************************************************************
+ |  Realizuje tworzenie macierzy rotacji.                                     |
+ |  Argumenty:                                                                |
+ |      this - macierz zerowa                                                 |
+ |      angle - kat obrotu                                                    |
+ |  Zwraca:                                                                   |
+ |      Macierz z wartosciami odpowiednich funkcji trygonometrycznych         |
+ */
+void Matrix::create_rotation (double angle){
+    value[0][0] = cos(angle);
+    value[0][1] = -sin(angle);
+    value[1][0] = sin(angle);
+    value[1][1] = cos(angle);
+}
+
+
+
 /******************************************************************************
  |  Przeciazenie operatora >>                                                 |
  |  Argumenty:                                                                |
@@ -170,7 +204,7 @@ std::istream &operator>>(std::istream &in, Matrix &mat) {
 std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            out << "| " << mat(i, j) << " | "; //warto ustalic szerokosc wyswietlania dokladnosci liczb
+            out << std::setw(16) << std::fixed << std::setprecision(10) << "| " << mat(i, j) << " | "; //warto ustalic szerokosc wyswietlania dokladnosci liczb
         }
         std::cout << std::endl;
     }

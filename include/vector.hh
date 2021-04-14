@@ -3,6 +3,19 @@
 #include "size.hh"
 #include <iostream>
 
+
+
+
+/*!
+ *  Klasa opisujaca wektor w przestrzeni ( w tym przypadku w 2 wymiarach ).
+ *  Za jego pomoca opisywane sa wierzcholki dowolnej figury jako wektory
+ *  o poczatku w poczatku ukladu wspolrzednych. Wektory skladaja sie z 
+ *  tablicy typu double, w ktorej przechowywane sa kolejne skladowe.
+ * 
+ *  Dla klasy zdefiniowano podstawowe przeciazenia operatorow pozwalajace
+ *  na korzystanie z danych, ich modyfikacje oraz podstawowa arytmetyke 
+ *  wektorowa.
+ */
 class Vector {
 
 private:
@@ -118,7 +131,7 @@ Vector Vector::operator * (const double &tmp) {
 
 
 /******************************************************************************
- |  Realizuje dzielenie dwoch wektorow.                                       |
+ |  Realizuje dzielenie wektora przez liczbe zmiennoprzecinkowa               |
  |  Argumenty:                                                                |
  |      this - licznik dzielenia,                                             |
  |      v - mianownik dzielenia.                                              |
@@ -173,7 +186,7 @@ double &Vector::operator[](int index) {
  */
 std::ostream &operator << (std::ostream &out, Vector const &tmp) {
     for (int i = 0; i < SIZE; i++) {
-        out << "[ " << tmp[i] << " ]\n";
+        out << std::setw(16) << std::fixed << std::setprecision(10) <<  tmp[i] << "\t";
     }
     return out;
 }
