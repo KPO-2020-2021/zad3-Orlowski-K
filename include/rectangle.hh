@@ -35,9 +35,9 @@ class Rectangle {
 
     void Rotate (Matrix tmp);
 
-    double len_short() const;
+    double len_a() const;
 
-    double len_long() const;   
+    double len_b() const;   
 };
 
 std::ostream& operator << ( std::ostream &out, const Rectangle &tmp );
@@ -137,6 +137,26 @@ void Rectangle::Rotate (Matrix tmp){
     }
 }
 
+
+
+double  Rectangle::len_a() const{
+    double result;
+    Vector tmp;
+
+    tmp = value[1] - value[0];
+    result = tmp.lenght();
+    return result;
+}
+
+
+double  Rectangle::len_b() const{
+    double result;
+    Vector tmp;
+
+    tmp = value[3] - value[0];
+    result = tmp.lenght();
+    return result;
+}
 
 
 

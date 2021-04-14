@@ -30,7 +30,7 @@ public:
 
     Vector operator + (const Vector &v);
 
-    Vector operator - (const Vector &v);
+    Vector operator - (const Vector &v) const;
 
     Vector operator * (const double &tmp);
 
@@ -39,6 +39,8 @@ public:
     const double &operator [] (int index) const;
 
     double &operator [] (int index);
+
+    double lenght() const;
 
 };
 
@@ -102,10 +104,10 @@ Vector Vector::operator + (const Vector &v) {
  |      Roznice dwoch skladnikow przekazanych jako wskaznik                   |
  |      na parametr.                                                          |
  */
-Vector Vector::operator - (const Vector &v) {
+Vector Vector::operator - (const Vector &v) const {
     Vector result;
     for (int i = 0; i < SIZE; i++) {
-        result[i] = size[i] -= v[i];
+        result[i] = size[i] - v[i];
     }
     return result;
 }
@@ -115,7 +117,7 @@ Vector Vector::operator - (const Vector &v) {
  |  Realizuje mnozenie wektora przez liczbe zmiennoprzecinkowa.               |
  |  Argumenty:                                                                |
  |      this - pierwszy skladnik mnozenia (wektor),                           |
- |      v - drugi skladnik mnozenia (liczba typu double).                     |
+ |      tmp - drugi skladnik mnozenia (liczba typu double).                     |
  |  Zwraca:                                                                   |
  |      Iloczyn dwoch skladnikow przekazanych jako wskaznik                   |
  |      na parametr.                                                          |
@@ -134,7 +136,7 @@ Vector Vector::operator * (const double &tmp) {
  |  Realizuje dzielenie wektora przez liczbe zmiennoprzecinkowa               |
  |  Argumenty:                                                                |
  |      this - licznik dzielenia,                                             |
- |      v - mianownik dzielenia.                                              |
+ |      tmp - mianownik dzielenia.                                              |
  |  Zwraca:                                                                   |
  |      Iloraz dwoch skladnikow przekazanych jako wskaznik                    |
  |      na parametr.                                                          |
@@ -142,6 +144,9 @@ Vector Vector::operator * (const double &tmp) {
 
 Vector Vector::operator / (const double &tmp) {
     Vector result;
+
+    if(tmp == 0)
+     throw("Nie dziel przez 0 !!!");
 
     for (int i = 0; i < SIZE; i++) {
         result[i] = size[i] / tmp;
@@ -175,6 +180,18 @@ const double &Vector::operator [] (int index) const {
  */
 double &Vector::operator[](int index) {
     return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
+}
+
+
+
+
+double Vector::lenght() const{
+    double result, sum;
+
+    for(int i = 0; i < SIZE; ++i){
+        sum += pow(size[i],2);
+    }
+    return result = sqrt(sum);
 }
 
 

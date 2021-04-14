@@ -245,6 +245,10 @@ int main() {
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
   std::cin.ignore(100000,'\n');
 
+  Rectangle pom;
+  pom = Rectangle(argumentsR);
+  SaveFile("../datasets/prostokat.dat",pom);
+
 
 
   // Z bazy projektu-wydmuszki Boiler Plate C++:
