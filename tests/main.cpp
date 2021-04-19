@@ -6,11 +6,6 @@
 #include "rectangle.hh"
 #include <sstream>
 
-// This is all that is needed to compile a test-runner executable.
-// More tests can be added here, or in a new tests/*.cpp file.
-
-
-
 TEST_CASE("Test funktora wektora"){
     Vector a,result;
     double arg1[] = {2,3.00};
@@ -19,6 +14,7 @@ TEST_CASE("Test funktora wektora"){
 
     CHECK( (a[0] == 2.00 && a[1] == 3.00 ) );
 }
+
 
 TEST_CASE("Test funktora wektora"){
     Vector a,result;
@@ -194,3 +190,7 @@ TEST_CASE("Test przeciazenia >> dla wektora"){
     std::cout << out.str() << std::endl;
     CHECK( out.str() == "   10.0000000000	   20.0000000000	" );
 }
+
+
+
+

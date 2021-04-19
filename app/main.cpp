@@ -156,10 +156,10 @@ int main() {
   std::cout << "Rectangle:" << std::endl;
   Rectangle tmpR1 = Rectangle();
   std::cout << "Rectangle - konstruktor bezparametryczny:\n" << tmpR1 << std::endl;
-  double arg1[] = {10.0, 20.0};
-  double arg2[] = {50.0, 20.0};
-  double arg3[] = {50.0, 60.0};
-  double arg4[] = {10.0, 60.0};
+  double arg1[] = {100.0, 200.0};
+  double arg2[] = {500.0, 200.0};
+  double arg3[] = {500.0, 600.0};
+  double arg4[] = {100.0, 600.0};
   Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
   Vector argumentsR[] = {V1,V2,V3,V4};
   Rectangle tmpR2 = Rectangle(argumentsR);
@@ -235,25 +235,29 @@ int main() {
   Lacze.Rysuj();
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
   std::cin.ignore(100000,'\n');
-
-  Rotation.create_rotation(M_PI/3);
-  tmpR3.Rotate(Rotation);
+  
+  Rotation = Matrix();
+  tmpR3.Rotate(75,1,Rotation);
   std::cout << tmpR3 << std::endl;
   if(!SaveFile("../datasets/prostokat.dat",tmpR3))
        return 1;
   Lacze.Rysuj();
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
   std::cin.ignore(100000,'\n');
-
+  
   Rectangle pom;
   pom = Rectangle(argumentsR);
   SaveFile("../datasets/prostokat.dat",pom);
 
 
 
-  // Z bazy projektu-wydmuszki Boiler Plate C++:
-  // Bring in the dummy class from the example source,
-  // just to show that it is accessible from main.cpp.
-  Dummy d = Dummy();
-  return d.doSomething() ? 0 : -1;
+
+
+
+
+
+  
+
+
+
 }
