@@ -31,7 +31,7 @@ TEST_CASE("Konstruktor wektora bez argumentu"){
     Vector tmpV;
     double test = 0;
 
-    tmpV = Vector();
+    
     for(int i = 0; i < SIZE ; i++){
         if(tmpV[i] != 0 )
           test = -1;
@@ -180,14 +180,13 @@ TEST_CASE("Test przeciazenia << dla wektora"){
 
 TEST_CASE("Test przeciazenia >> dla wektora"){
     Vector a;
-    double arg1[] = {10.00,20.000};
-
-    a = Vector(arg1);
-
+    
+    std::istringstream in("10.0 20.0");
+    in >> a;
     std::ostringstream out;
-
     out << a;
     std::cout << out.str() << std::endl;
+    
     CHECK( out.str() == "   10.0000000000	   20.0000000000	" );
 }
 

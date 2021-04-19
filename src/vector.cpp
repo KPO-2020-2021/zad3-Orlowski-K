@@ -121,7 +121,7 @@ Vector Vector::operator / (const double &tmp) {
  */
 const double &Vector::operator [] (int index) const {
     if (index < 0 || index >= SIZE) {
-        std::cerr << "Error: Wektor jest poza zasiegiem!" << std::endl;
+        throw("Error: Wektor jest poza zasiegiem!");
     }
     return size[index];
 }
@@ -135,6 +135,9 @@ const double &Vector::operator [] (int index) const {
  |      Wartosc wektora w danym miejscu tablicy.                              |
  */
 double &Vector::operator[](int index) {
+    if (index < 0 || index >= SIZE) {
+        throw("Error: Wektor jest poza zasiegiem!");
+    }
     return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
 }
 
@@ -168,7 +171,7 @@ std::ostream &operator << (std::ostream &out, Vector const &tmp) {
 /******************************************************************************
  |  Przeciazenie operatora >>                                                 |
  |  Argumenty:                                                                |
- |      in - strumien wyjsciowy,                                              |
+ |      in - strumien wejsciowy,                                              |
  |      tmp - wektor.                                                         |
  */
 std::istream &operator >> (std::istream &in, Vector &tmp) {
@@ -179,3 +182,22 @@ std::istream &operator >> (std::istream &in, Vector &tmp) {
     return in;
 }
 
+
+
+
+
+/******************************************************************************
+ |  Przeciazenie operatora ==                                                 |
+ |  Argumenty:                                                                |
+ |      this - pierwszy wektor,                                              |
+ |      V2 - drugi wektor.
+ |  Zgodnosc do 10 cyfr po przecinku.                                                         |
+ */
+bool Vector::operator == (const Vector &V2) const {
+    for(int i = 0; i < SIZE ; ++i){
+        if( fabs(size[i] - V2.size[i]) > 1e-11 )
+            return 0;
+    }
+
+    return 1;
+}

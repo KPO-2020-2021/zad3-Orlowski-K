@@ -137,123 +137,16 @@ int main() {
             << "."
             << PROJECT_VERSION_TWEAK /* zmiany estetyczne itd. */
             << std::endl;
-  // std::system("cat ../LICENSE");
-  // do zadania Rotacja 2D
-  std::cout << "Vector:" << std::endl;
-  Vector tmpV1 = Vector();
-  std::cout << "Vector - konstruktor bezparametryczny:\n" << tmpV1 << std::endl;
-  double argumentsV[] = {1.0, 2.0};
-  Vector tmpV2 = Vector(argumentsV);
-  std::cout << "Vector - konstruktor parametryczny:\n" << tmpV2 << std::endl;
-
-  std::cout << "Matrix:" << std::endl;
-  Matrix tmpM1 = Matrix();
-  std::cout << "Matrix - konstruktor bezparametryczny:\n" << tmpM1 << std::endl;
-  double argumentsM[][SIZE] = {{1.0, 2.0},{3.0, 4.0}};
-  Matrix tmpM2 = Matrix(argumentsM);
-  std::cout << "Matrix - konstruktor parametryczny:\n" << tmpM2 << std::endl;
-
-  std::cout << "Rectangle:" << std::endl;
-  Rectangle tmpR1 = Rectangle();
-  std::cout << "Rectangle - konstruktor bezparametryczny:\n" << tmpR1 << std::endl;
-  double arg1[] = {100.0, 200.0};
-  double arg2[] = {500.0, 200.0};
-  double arg3[] = {500.0, 600.0};
-  double arg4[] = {100.0, 600.0};
-  Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
-  Vector argumentsR[] = {V1,V2,V3,V4};
-  Rectangle tmpR2 = Rectangle(argumentsR);
-  std::cout << "Rectangle - konstruktor parametryczny:\n" << tmpR2 << std::endl;
 
 
-    PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
-                                // rysunku prostokata
+  Vector V1,V2;
 
-   //-------------------------------------------------------
-   //  Wspolrzedne wierzcholkow beda zapisywane w pliku "prostokat.dat"
-   //  Ponizsze metody powoduja, ze dane z pliku beda wizualizowane
-   //  na dwa sposoby:
-   //   1. Rysowane jako linia ciagl o grubosci 2 piksele
-   //
-  Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
-   //
-   //   2. Rysowane jako zbior punktow reprezentowanych przez kwadraty,
-   //      których połowa długości boku wynosi 2.
-   //
-  Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Punktowy,2);
-   //
-   //  Ustawienie trybu rysowania 2D, tzn. rysowany zbiór punktów
-   //  znajduje się na wspólnej płaszczyźnie. Z tego powodu powoduj
-   //  jako wspolrzedne punktow podajemy tylko x,y.
-   //
-  Lacze.ZmienTrybRys(PzG::TR_2D);
-
-  PrzykladZapisuWspolrzednychDoStrumienia(std::cout,0);
-  if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat",0)) return 1;
-  Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-   //----------------------------------------------------------
-   // Ponownie wypisuje wspolrzedne i rysuje prostokąt w innym miejscu.
-   //
-  PrzykladZapisuWspolrzednychDoStrumienia(std::cout,50);
-  if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat",50)) return 1;
-  Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-
-  Vector Translation;
-  Matrix Rotation;
-  double tmp[] = {50.0,50.0};
-  Rectangle tmpR3;
-  
-  Translation = Vector(tmp);
-  Lacze.ZmienTrybRys(PzG::TR_2D);
-
-  Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
-  std::cout << tmpR2 << std::endl;
-  if(!SaveFile("../datasets/prostokat.dat",tmpR2))
-       return 1;
-  Lacze.Rysuj();
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-
-  tmpR2.Translate(Translation);
-  std::cout << tmpR2;
-  if(!SaveFile("../datasets/prostokat.dat",tmpR2))
-    return 1;
-  Lacze.Rysuj();
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-
-
-  Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
-  tmpR3 = Rectangle(argumentsR);
-  std::cout << tmpR3 << std::endl;
-  if(!SaveFile("../datasets/prostokat.dat",tmpR3))
-       return 1;
-  Lacze.Rysuj();
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-  
-  Rotation = Matrix();
-  tmpR3.Rotate(75,1,Rotation);
-  std::cout << tmpR3 << std::endl;
-  if(!SaveFile("../datasets/prostokat.dat",tmpR3))
-       return 1;
-  Lacze.Rysuj();
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-  
-  Rectangle pom;
-  pom = Rectangle(argumentsR);
-  SaveFile("../datasets/prostokat.dat",pom);
-
-
-
-
-
-
+  try{
+    V1[5];
+  }
+  catch(const char* message){
+    std::cerr << message << std::endl;
+  }
 
 
   

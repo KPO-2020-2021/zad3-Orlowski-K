@@ -39,6 +39,8 @@ public:
 
     Vector operator / (const double &tmp);
 
+    bool   operator == (const Vector &V2) const;
+
     const double &operator [] (int index) const;
 
     double &operator [] (int index);
