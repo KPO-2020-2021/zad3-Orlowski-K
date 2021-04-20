@@ -189,7 +189,7 @@ std::istream &operator >> (std::istream &in, Vector &tmp) {
 /******************************************************************************
  |  Przeciazenie operatora ==                                                 |
  |  Argumenty:                                                                |
- |      this - pierwszy wektor,                                              |
+ |      this - pierwszy wektor,                                               |
  |      V2 - drugi wektor.
  |  Zgodnosc do 10 cyfr po przecinku.                                                         |
  */

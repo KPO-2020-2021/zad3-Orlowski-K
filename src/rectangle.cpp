@@ -41,7 +41,7 @@ Rectangle::Rectangle(Vector tmp[4]) {
  */
 const Vector &Rectangle::operator [] (int index) const {
     if (index < 0 || index >= 4) {
-        std::cerr << "Error: Wierzholek jest poza zasiegiem!" << std::endl;
+        throw( "Error: Wierzholek jest poza zasiegiem!" );
     }
     return value[index];
 }
@@ -57,7 +57,7 @@ const Vector &Rectangle::operator [] (int index) const {
  */
  Vector &Rectangle::operator [] (int index) {
     if (index < 0 || index >= 4) {
-        std::cerr << "Error: Wierzholek jest poza zasiegiem!" << std::endl;
+        throw ("Error: Wierzholek jest poza zasiegiem!");
     }
     return value[index];
 }
@@ -68,12 +68,14 @@ const Vector &Rectangle::operator [] (int index) const {
  | Realizuje translacje o podany wektor                             |
  | Argumenty:                                                       |
  |    Zadany prostokat;                                             |
- |    W_trans  - wektor translacji;                                 |
+ |    tmp  - wektor translacji;                                     |
+ |    times - ilosc powtorzen                                       |
  |  Wynik dzialania:                                                |
  |    Dodanie do kazdego wektora prostokata wektora translacji.     |
  |    W ten sposob prostokat jest przesuwany.                       |
  */
-void Rectangle::Translate (const Vector &tmp){
+void Rectangle::Translate (Vector &tmp,  unsigned int times){
+    tmp = tmp * times;
     for(int i = 0; i < 4; i ++){
         value[i] = value[i] + tmp;
     }
@@ -133,8 +135,33 @@ double  Rectangle::len_b() const{
  |      tmp - prostokat.                                                      |
  */
 std::ostream& operator << ( std::ostream &out, const Rectangle &tmp ){
+    
     for(int i = 0; i < 4 ; i++){
         out << tmp[i] << std::endl;
     }
     return out;
+}
+
+
+
+std::ofstream& operator << ( std::ofstream &outfile, const Rectangle &tmp ){
+    
+    outfile.open(FILENAME);
+    if (!outfile.is_open())  {
+        std::cerr << ":(  Operacja otwarcia do zapisu \"" << FILENAME << "\"" << std::endl
+	    << ":(  nie powiodla sie." << std::endl;
+        exit(0);
+    }
+
+
+    for(int i = 0; i < 4 ; i++){
+        outfile << tmp[i] << std::endl;
+    }
+
+    outfile << tmp[0];
+    outfile.close();
+
+
+    return outfile;
+
 }

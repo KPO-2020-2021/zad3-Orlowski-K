@@ -75,27 +75,6 @@ void PrzykladZapisuWspolrzednychDoStrumienia( std::ostream&     StrmWy,
 }
 
 
-
-/*!
-*  Funkcja zapisu wierzcholkow do podanego pliku wyjsciowego
-*/
-bool SaveFile(const char *File,const Rectangle &tmp){
-       std::fstream outfile;
-
-       outfile.open(File);
-       if (!outfile.is_open())  {
-         std::cerr << ":(  Operacja otwarcia do zapisu \"" << *File << "\"" << std::endl
-	     << ":(  nie powiodla sie." << std::endl;
-         return false;
-       }
-       outfile << tmp;
-       outfile << tmp[0];
-       outfile.close();
-
-       return !outfile.fail();
-}
-
-
 /*!
  * Przyklad zapisu wspolrzednych zbioru punktow do pliku, z ktorego
  * dane odczyta program gnuplot i narysuje je w swoim oknie graficznym.
@@ -139,17 +118,21 @@ int main() {
             << std::endl;
 
 
-  Vector V1,V2;
-
-  try{
-    V1[5];
-  }
-  catch(const char* message){
-    std::cerr << message << std::endl;
-  }
-
-
+  Matrix M;
   
+  double arg1[] = {100.0, 200.0};
+    double arg2[] = {500.0, 200.0};
+    double arg3[] = {500.0, 600.0};
+    double arg4[] = {100.0, 600.0};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    Rectangle tmpR = Rectangle(argumentsR);
+
+    tmpR.Rotate(90, 4, M);
+
+    std::cout << M << tmpR;
+
 
 
 

@@ -3,6 +3,7 @@
 #include "size.hh"
 #include "matrix.hh"
 #include <iostream>
+#include <fstream>
 
 
 /*********************************************************************
@@ -31,7 +32,7 @@ class Rectangle {
 
     Vector &operator [] (int index);
 
-    void Translate (const Vector &tmp);
+    void Translate (Vector &tmp, unsigned int times);
 
     void Rotate (double angle, unsigned int times, Matrix &r_Matrix);
 
@@ -43,6 +44,7 @@ class Rectangle {
 std::ostream& operator << ( std::ostream &out, const Rectangle &tmp );
 
 
+std::ofstream& operator << ( std::ofstream &out, const Rectangle &tmp );
 
 
 
