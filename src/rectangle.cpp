@@ -94,11 +94,9 @@ void Rectangle::Translate (Vector &tmp,  unsigned int times){
  */
 void Rectangle::Rotate (double angle, unsigned int times, Matrix &r_Matrix){
     int period;
-    period = angle / 360;
-    angle -= period*360;
+   
     period = angle * times / 360;
-    angle -= period * 360;
-
+    angle = angle*times - period*360;
     r_Matrix.create_rotation(angle * M_PI / 180);
 
     for(int i = 0; i < 4; ++i){
@@ -107,23 +105,54 @@ void Rectangle::Rotate (double angle, unsigned int times, Matrix &r_Matrix){
     
 }
 
-double  Rectangle::len_a() const{
-    double result;
-    Vector tmp;
-
-    tmp = value[1] - value[0];
-    result = tmp.lenght();
-    return result;
+bool  Rectangle::compare_len_a() const{
+    Vector a,b;
+    double len1,len2;
+    
+    a = value[1] - value[0];
+    b = value[2] - value[3];
+    len1 = a.lenght();
+    len2 = b.lenght();
+    std::cout << std::endl;
+    if(fabs(len1 - len2 ) <= 1e-11){
+        std::cout << "Pierwsze przeciwlegle boki sa rowne." << std::endl;
+        std::cout << std::setw(16) << std::fixed << std::setprecision(10) <<  "Dlugosc pierwszego boku: " << len1 << std::endl;
+        std::cout << std::setw(16) << std::fixed << std::setprecision(10) <<  "  Dlugosc drugiego boku: " << len2 << std::endl << std::endl;
+        
+    }
+    else{
+        std::cout << "Pierwsze przeciwlegle boki nie sa rowne!!!" << std::endl;
+        std::cout << "Dlugosc pierwszego boku: " << len1 << std::endl;
+        std::cout << "  Dlugosc drugiego boku: " << len2 << std::endl << std::endl;
+        return false;
+    }
+    
+    return true;
 }
 
 
-double  Rectangle::len_b() const{
-    double result;
-    Vector tmp;
-
-    tmp = value[3] - value[0];
-    result = tmp.lenght();
-    return result;
+bool  Rectangle::compare_len_b() const{
+    Vector a,b;
+    double len1,len2;
+    a = value[3] - value[0];
+    len1 = a.lenght();
+    b = value[2] - value[1];
+    len2 = b.lenght();
+    
+    if(fabs(len1 - len2 ) <= 1e-11){
+        std::cout << "Drugie przeciwlegle boki sa rowne." << std::endl;
+        std::cout << std::setw(16) << std::fixed << std::setprecision(10) << "Dlugosc pierwszego boku: " << len1 << std::endl;
+        std::cout << std::setw(16) << std::fixed << std::setprecision(10) <<"  Dlugosc drugiego boku: " << len2 << std::endl << std::endl;
+        
+    }
+    else{
+        std::cout << "Drugie przeciwlegle boki nie sa rowne!!!" << std::endl;
+        std::cout << std::setw(16) << std::fixed << std::setprecision(10) <<  "Dlugosc pierwszego boku: " << len1 << std::endl;
+        std::cout << std::setw(16) << std::fixed << std::setprecision(10) <<  "  Dlugosc drugiego boku: " << len2 << std::endl << std::endl;
+        return false;
+    }
+    
+    return true;
 }
 
 
@@ -164,4 +193,17 @@ std::ofstream& operator << ( std::ofstream &outfile, const Rectangle &tmp ){
 
     return outfile;
 
+}
+
+
+
+
+
+
+std::istream& operator >> (std::istream &in, Rectangle &tmp ){
+    for(int i = 0; i < 4; ++i){
+        in >> tmp[i];
+    }
+
+    return in;
 }

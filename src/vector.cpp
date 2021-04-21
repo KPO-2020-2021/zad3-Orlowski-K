@@ -73,7 +73,7 @@ Vector Vector::operator - (const Vector &v) const {
  |  Realizuje mnozenie wektora przez liczbe zmiennoprzecinkowa.               |
  |  Argumenty:                                                                |
  |      this - pierwszy skladnik mnozenia (wektor),                           |
- |      tmp - drugi skladnik mnozenia (liczba typu double).                     |
+ |      tmp - drugi skladnik mnozenia (liczba typu double).                   |
  |  Zwraca:                                                                   |
  |      Iloczyn dwoch skladnikow przekazanych jako wskaznik                   |
  |      na parametr.                                                          |
@@ -92,7 +92,7 @@ Vector Vector::operator * (const double &tmp) {
  |  Realizuje dzielenie wektora przez liczbe zmiennoprzecinkowa               |
  |  Argumenty:                                                                |
  |      this - licznik dzielenia,                                             |
- |      tmp - mianownik dzielenia.                                              |
+ |      tmp - mianownik dzielenia.                                            |
  |  Zwraca:                                                                   |
  |      Iloraz dwoch skladnikow przekazanych jako wskaznik                    |
  |      na parametr.                                                          |
@@ -145,12 +145,13 @@ double &Vector::operator[](int index) {
 
 
 double Vector::lenght() const{
-    double result, sum;
+    double result = 0, sum = 0;
 
     for(int i = 0; i < SIZE; ++i){
         sum += pow(size[i],2);
     }
-    return result = sqrt(sum);
+    result = sqrt(sum);
+    return result;
 }
 
 
@@ -190,8 +191,8 @@ std::istream &operator >> (std::istream &in, Vector &tmp) {
  |  Przeciazenie operatora ==                                                 |
  |  Argumenty:                                                                |
  |      this - pierwszy wektor,                                               |
- |      V2 - drugi wektor.
- |  Zgodnosc do 10 cyfr po przecinku.                                                         |
+ |      V2 - drugi wektor.                                                    |
+ |  Zgodnosc do 10 cyfr po przecinku.                                         |
  */
 bool Vector::operator == (const Vector &V2) const {
     for(int i = 0; i < SIZE ; ++i){

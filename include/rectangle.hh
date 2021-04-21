@@ -36,15 +36,19 @@ class Rectangle {
 
     void Rotate (double angle, unsigned int times, Matrix &r_Matrix);
 
-    double len_a() const;
+    bool compare_len_a() const;
 
-    double len_b() const;   
+    bool compare_len_b() const;
+
+
 };
 
 std::ostream& operator << ( std::ostream &out, const Rectangle &tmp );
 
 
 std::ofstream& operator << ( std::ofstream &out, const Rectangle &tmp );
+
+std::istream& operator >> (std::istream &in, Rectangle &tmp );
 
 
 

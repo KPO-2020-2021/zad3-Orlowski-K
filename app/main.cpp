@@ -106,6 +106,21 @@ bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku,
   return !StrmPlikowy.fail();
 }
 
+/* Funkcja wyswietlajaca MENU */
+void  MENU(){
+   std::cout << " o - obrot prostokata o zadany kat" <<std::endl;
+   std::cout << " p - przesuniecie prostokata o zadany wektor" <<std::endl;
+   std::cout << " w - wyswietlenie wspolrzednych wierzcholkow" <<std::endl;
+   std::cout << " m - wyswietl menu" <<std::endl;
+   std::cout << " k - koniec dzialania programu\n" <<std::endl;
+}
+
+
+
+
+
+
+
 int main() {
   std::cout << "Project 2D Rotation based on C++ Boiler Plate v"
             << PROJECT_VERSION_MAJOR /*duże zmiany, najczęściej brak kompatybilności wstecz */
@@ -115,25 +130,82 @@ int main() {
             << PROJECT_VERSION_PATCH /* naprawianie bugów */
             << "."
             << PROJECT_VERSION_TWEAK /* zmiany estetyczne itd. */
-            << std::endl;
+            << std::endl <<std::endl;
+
+    Rectangle object;
+    Vector translator;
+    Matrix rotator;
+    char option[1] ,repeat[1];
+    double angle;
+    unsigned int times;
+    std::ofstream File;
+    PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
+                                // rysunku prostokata
+
+    std::cout << "Prosze podac prostokat jako 4 wektory od lewego dolnego\nprzeciwnie do wskazowek zegara\ntzn. 4 pary liczb x i y " << std::endl;
+    std::cin >> object;
+    
+    while( !(object.compare_len_a() && object.compare_len_b()) ){
+       std::cerr << "To raczej nie jest prostokat!!" << std::endl;
+       std::cout << "Czy chcesz sprobowac ponownie? [T/N] : ";
+       std::cin >> repeat;
+       if(repeat[0] != 'T')
+          exit(1);
+       std::cin >> object; 
+    }
+    std::cin.ignore(100000,'\n');
+    std::cin.clear();
+    
 
 
-  Matrix M;
-  
-  double arg1[] = {100.0, 200.0};
-    double arg2[] = {500.0, 200.0};
-    double arg3[] = {500.0, 600.0};
-    double arg4[] = {100.0, 600.0};
-    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
-    Vector argumentsR[] = {V1,V2,V3,V4};
+    Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
 
-    Rectangle tmpR = Rectangle(argumentsR);
-
-    tmpR.Rotate(90, 4, M);
-
-    std::cout << M << tmpR;
+    Lacze.ZmienTrybRys(PzG::TR_2D);
+    File << object;
+    Lacze.Rysuj();
+    std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
+    std::cin.ignore(100000,'\n');
 
 
-
-
+    MENU();
+    
+    while( option[0] != 'k'){
+      std::cout << "Twoj wybor? (m - menu) >  ";
+      std::cin >> option;
+      switch(option[0]){
+       
+          case 'o' :
+              std::cout << "Podaj wartosc kata obrotu w stopniach: ";
+              std::cin >> angle;
+              std::cout << "Ile razy nalezy powtorzyc operacje? ";
+              std::cin >> times;
+              object.Rotate(angle,times,rotator);
+              Lacze.DodajNazwePliku("../datasets/prostokat.dat",PzG::RR_Ciagly,2);
+              Lacze.ZmienTrybRys(PzG::TR_2D);
+              File << object;
+              Lacze.Rysuj();
+              std::cin.ignore(100000,'\n');
+              object.compare_len_a();
+              object.compare_len_b();
+              break;
+          case 'm' :
+              MENU();
+              break;
+          case 'p' :
+              std::cout << std::endl;
+              std::cout << "Podaj wspolrzedne wektora translacji w postaci dwoch liczb\ntzn. wspolrzednej x oraz wspolrzednej y\n";
+              std::cin >> translator;
+              std::cout << "Ile razy przesunac?  ";
+              std::cin >> times;
+              object.Translate(translator,times);
+              break;
+          case 'w':
+              std::cout << object;
+              object.compare_len_a();
+              object.compare_len_b();
+              break;;
+          default :
+              exit(1);
+      }
+    }
 }

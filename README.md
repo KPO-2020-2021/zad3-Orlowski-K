@@ -1,3 +1,7 @@
+## Overlook
+
+Program obsluguje obrot i translacje prostokata w 2D.
+
 
 ## Building
 

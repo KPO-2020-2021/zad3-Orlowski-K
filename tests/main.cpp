@@ -503,7 +503,7 @@ TEST_CASE("Translacja prostokąta o wektor"){
 
 
 
-TEST_CASE("Translacja prostokąta o wektor"){
+TEST_CASE("Rotacja prostokata kat dodatni kilka razy"){
     Rectangle tmpR;
     Vector trans;
     unsigned int times;
@@ -523,14 +523,159 @@ TEST_CASE("Translacja prostokąta o wektor"){
 
     tmpR.Rotate(90, times, rotation);
 
-    double res1[] = {-100.0, -200.0};
-    double res2[] = {-500.0, -200.0};
-    double res3[] = {-500.0, -600.0};
-    double res4[] = {-100.0, -600.0};
+    double res1[] = {200.0, -100.0};
+    double res2[] = {200.0, -500.0};
+    double res3[] = {600.0, -500.0};
+    double res4[] = {600.0, -100.0};
     Vector R1 = Vector(res1), R2 = Vector(res2), R3 = Vector(res3), R4 = Vector(res4);
 
     CHECK(( tmpR[0] == R1 && tmpR[1] == R2 && tmpR[2] == R3 && tmpR[3] == R4) );
 }
+
+
+
+TEST_CASE("Rotacja prostokata kat ujemny"){
+    Rectangle tmpR;
+    Vector trans;
+    unsigned int times;
+    Matrix rotation;
+    
+
+
+    double arg1[] = {100.0, 200.0};
+    double arg2[] = {500.0, 200.0};
+    double arg3[] = {500.0, 600.0};
+    double arg4[] = {100.0, 600.0};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    tmpR = Rectangle(argumentsR);
+    times = 1;
+
+    tmpR.Rotate(-270, times, rotation);
+
+    double res1[] = {-200.0, 100.0};
+    double res2[] = {-200.0, 500.0};
+    double res3[] = {-600.0, 500.0};
+    double res4[] = {-600.0, 100.0};
+    Vector R1 = Vector(res1), R2 = Vector(res2), R3 = Vector(res3), R4 = Vector(res4);
+
+    CHECK(( tmpR[0] == R1 && tmpR[1] == R2 && tmpR[2] == R3 && tmpR[3] == R4) );
+}
+
+
+
+
+
+TEST_CASE("Rotacja prostokata - brak zmiany"){
+    Rectangle tmpR;
+    Vector trans;
+    unsigned int times;
+    Matrix rotation;
+    
+
+
+    double arg1[] = {100.0, 200.0};
+    double arg2[] = {500.0, 200.0};
+    double arg3[] = {500.0, 600.0};
+    double arg4[] = {100.0, 600.0};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    tmpR = Rectangle(argumentsR);
+    times = 5;
+
+    double res1[] = {100.0, 200.0};
+    double res2[] = {500.0, 200.0};
+    double res3[] = {500.0, 600.0};
+    double res4[] = {100.0, 600.0};
+    tmpR.Rotate(36000000, times, rotation);
+
+    Vector R1 = Vector(res1), R2 = Vector(res2), R3 = Vector(res3), R4 = Vector(res4);
+
+    CHECK(( tmpR[0] == R1 && tmpR[1] == R2 && tmpR[2] == R3 && tmpR[3] == R4) );
+}
+
+
+
+
+
+
+TEST_CASE("Zapis do strumienia zewnetrznego"){
+    double arg1[] = {10.0, 20.0};
+    double arg2[] = {50.0, 20.0};
+    double arg3[] = {50.0, 60.0};
+    double arg4[] = {10.0, 60.0};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+    Rectangle tmpR(argumentsR);
+
+    std::ostringstream out;
+
+    out << tmpR;
+    std::cout << out.str() << std::endl;
+    CHECK( out.str() == "   10.0000000000	   20.0000000000	\n   50.0000000000	   20.0000000000	\n   50.0000000000	   60.0000000000	\n   10.0000000000	   60.0000000000	\n");
+
+}
+
+
+
+
+TEST_CASE("Porownanie pierwszych bokow"){
+    double arg1[] = {1,1};
+    double arg2[] = {11,1};
+    double arg3[] = {11,6};
+    double arg4[] = {1,6};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    Rectangle tmpR = Rectangle(argumentsR);
+
+    CHECK( tmpR.compare_len_a() );
+}
+
+
+TEST_CASE("Porownanie drugich bokow"){
+    double arg1[] = {1,1};
+    double arg2[] = {11,1};
+    double arg3[] = {11,6};
+    double arg4[] = {1,6};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    Rectangle tmpR = Rectangle(argumentsR);
+
+    CHECK( tmpR.compare_len_b() );
+}
+
+
+TEST_CASE("Porownanie pierwszych bokow"){
+    double arg1[] = {1,1};
+    double arg2[] = {11,1};
+    double arg3[] = {11,7};
+    double arg4[] = {1,6};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    Rectangle tmpR = Rectangle(argumentsR);
+
+    CHECK( !tmpR.compare_len_a() );
+}
+
+
+TEST_CASE("Porownanie pierwszych bokow"){
+    double arg1[] = {1,1};
+    double arg2[] = {11,1};
+    double arg3[] = {11,7};
+    double arg4[] = {1,6};
+    Vector V1 = Vector(arg1), V2 = Vector(arg2), V3 = Vector(arg3), V4 = Vector(arg4);
+    Vector argumentsR[] = {V1,V2,V3,V4};
+
+    Rectangle tmpR = Rectangle(argumentsR);
+
+    CHECK( !tmpR.compare_len_b() );
+}
+
 
 
 
