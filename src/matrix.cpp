@@ -222,7 +222,7 @@ double Matrix::det() const{
     
     for(int i = 0; i < SIZE -1; ++i){
         if(tmp(i,i) == 0){
-            std::cerr << "Macierz nieosobliwa " << std::endl;
+            std::cerr << "Macierz osobliwa " << std::endl;
             return 0;
         }
             
