@@ -29,6 +29,8 @@ public:
 
     Matrix();                               // Konstruktor klasy
 
+    Matrix operator * (Matrix tmp);
+
     Vector operator * (Vector tmp);           // Operator mnożenia przez wektor
 
     Matrix operator + (Matrix tmp);
@@ -38,6 +40,8 @@ public:
     double  &operator () (unsigned int row, unsigned int column);
     
     const double &operator () (unsigned int row, unsigned int column) const;
+
+    double det() const;
 };
 
 std::istream &operator>>(std::istream &in, Matrix &mat);

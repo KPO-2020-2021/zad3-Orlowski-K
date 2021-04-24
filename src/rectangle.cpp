@@ -93,18 +93,25 @@ void Rectangle::Translate (Vector &tmp,  unsigned int times){
  *    W ten sposob prostokat jest obracany.                             |
  */
 void Rectangle::Rotate (double angle, unsigned int times, Matrix &r_Matrix){
-    int period;
    
-    period = angle * times / 360;
-    angle = angle*times - period*360;
-    r_Matrix.create_rotation(angle * M_PI / 180);
-
-    for(int i = 0; i < 4; ++i){
-        value[i] = r_Matrix * value[i];
+    
+    for(unsigned int k = 0; k < times; k++){
+        r_Matrix.create_rotation(angle * M_PI / 180);
+        for(int i = 0; i < 4; ++i){
+            value[i] = r_Matrix * value[i];
+        }
     }
     
 }
 
+
+/************************************************************************
+ * Realizuje porownywanie dlugosci bokow                                |         
+ * Argumenty:                                                           |
+ *    Zadany prostokat;                                                 |
+ *  Wynik dzialania:                                                    |
+ *    Okresla czy boki sa rowne i wyswietla ich dlugosc                 |
+ */
 bool  Rectangle::compare_len_a() const{
     Vector a,b;
     double len1,len2;
@@ -130,7 +137,13 @@ bool  Rectangle::compare_len_a() const{
     return true;
 }
 
-
+/************************************************************************
+ * Realizuje porownywanie dlugosci bokow                                |         
+ * Argumenty:                                                           |
+ *    Zadany prostokat;                                                 |
+ *  Wynik dzialania:                                                    |
+ *    Okresla czy boki sa rowne i wyswietla ich dlugosc                 |
+ */
 bool  Rectangle::compare_len_b() const{
     Vector a,b;
     double len1,len2;
@@ -172,7 +185,12 @@ std::ostream& operator << ( std::ostream &out, const Rectangle &tmp ){
 }
 
 
-
+/******************************************************************************
+ |  Przeciazenie operatora << dla zapisu do pliku                             |
+ |  Argumenty:                                                                |
+ |      outfile - strumien plikowy                                            |
+ |      tmp - prostokat.                                                      |
+ */
 std::ofstream& operator << ( std::ofstream &outfile, const Rectangle &tmp ){
     
     outfile.open(FILENAME);
@@ -199,7 +217,12 @@ std::ofstream& operator << ( std::ofstream &outfile, const Rectangle &tmp ){
 
 
 
-
+/******************************************************************************
+ |  Przeciazenie operatora >>                                                 |
+ |  Argumenty:                                                                |
+ |      in - strumien wejsciowy                                               |
+ |      tmp - prostokat.                                                      |
+ */
 std::istream& operator >> (std::istream &in, Rectangle &tmp ){
     for(int i = 0; i < 4; ++i){
         in >> tmp[i];

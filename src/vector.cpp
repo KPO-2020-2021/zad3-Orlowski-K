@@ -143,7 +143,13 @@ double &Vector::operator[](int index) {
 
 
 
-
+/******************************************************************************
+ |  Oblicza dlugosc boku                                                      |
+ |  Argumenty:                                                                |
+ |      this - zadany wektor                                                  |
+ |  Zwraca:                                                                   |
+ |      Dlugosc wektora jako double                                           |
+ */
 double Vector::lenght() const{
     double result = 0, sum = 0;
 

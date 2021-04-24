@@ -38,12 +38,40 @@ Matrix::Matrix(double tmp[SIZE][SIZE]) {
     }
 }
 
+/******************************************************************************
+ |  Realizuje mnozenie dwoch macierzy                                         |
+ |  Argumenty:                                                                |
+ |      this - macierz z lewej strony                                         |
+ |      tmp - macierz z prawej strony                                         |
+ |  Zwraca:                                                                   |
+ |      Nowa macierz kwadratowa                                               |
+ */
+Matrix Matrix::operator * (Matrix tmp){
+    Matrix Result;
+    double sum;
+
+    for( int i = 0; i < SIZE; ++i){
+
+        for( int j = 0; j < SIZE ; ++j){
+            sum = 0;
+            for( int k = 0; k < SIZE; ++k){
+                sum += value[i][k] * tmp(k,j);
+            }
+            Result(i,j) = sum;
+        }
+    }
+
+    return Result;
+}
+
+
+
 
 /******************************************************************************
  |  Realizuje mnozenie macierzy przez wektor.                                 |
  |  Argumenty:                                                                |
  |      this - macierz, czyli pierwszy skladnik mnozenia,                     |
- |      v - wektor, czyli drugi skladnik mnozenia.                            |
+ |      tmp - wektor, czyli drugi skladnik mnozenia.                          |
  |  Zwraca:                                                                   |
  |      Iloczyn dwoch skladnikow przekazanych jako wektor.                    |
  */
@@ -124,6 +152,8 @@ Matrix Matrix::operator + (Matrix tmp) {
 
 
 
+
+
 /******************************************************************************
  |  Realizuje tworzenie macierzy rotacji.                                     |
  |  Argumenty:                                                                |
@@ -172,3 +202,42 @@ std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
     }
     return out;
 }
+
+
+
+
+
+
+/******************************************************************************
+ |  Wyznacznik macierzy                                                       |
+ |  Argumenty:                                                                |
+ |      this - macierz, ktorej wyznacznik obliczamy                           |
+ |  Wynik:                                                                    |
+ |       Wyliczenie wyznacznika macierzy metoda eliminacji Gaussa             |
+ */
+double Matrix::det() const{
+    Matrix tmp;
+    tmp = *this;
+    double ratio, result = 1;
+    
+    for(int i = 0; i < SIZE -1; ++i){
+        if(tmp(i,i) == 0){
+            std::cerr << "Macierz nieosobliwa " << std::endl;
+            return 0;
+        }
+            
+        for(int j = i + 1; j < SIZE; ++j){
+            ratio = tmp(j,i)/tmp(i,i);
+            for( int k = 0; k < SIZE; ++k){
+                tmp(j,k) = tmp(j,k) - ratio * tmp(i,k);
+            }
+        }
+    }
+
+    for(int i = 0; i < SIZE; ++i){
+        result *= tmp(i,i);
+    }
+
+    return result;
+}
+

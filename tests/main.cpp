@@ -589,7 +589,7 @@ TEST_CASE("Rotacja prostokata - brak zmiany"){
     double res2[] = {500.0, 200.0};
     double res3[] = {500.0, 600.0};
     double res4[] = {100.0, 600.0};
-    tmpR.Rotate(36000000, times, rotation);
+    tmpR.Rotate(360, times, rotation);
 
     Vector R1 = Vector(res1), R2 = Vector(res2), R3 = Vector(res3), R4 = Vector(res4);
 
@@ -617,7 +617,6 @@ TEST_CASE("Zapis do strumienia zewnetrznego"){
     CHECK( out.str() == "   10.0000000000	   20.0000000000	\n   50.0000000000	   20.0000000000	\n   50.0000000000	   60.0000000000	\n   10.0000000000	   60.0000000000	\n");
 
 }
-
 
 
 
@@ -675,7 +674,4 @@ TEST_CASE("Porownanie pierwszych bokow"){
 
     CHECK( !tmpR.compare_len_b() );
 }
-
-
-
 
