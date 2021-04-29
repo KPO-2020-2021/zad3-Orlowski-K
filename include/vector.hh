@@ -5,11 +5,17 @@
 #include <cstdlib>
 #include <cmath>
 #include <iomanip>
-
-
+#include <cassert>
 
 
 /*!
+*   \file
+*   \brief  Plik zawierajacy szablon klasy Vector<>  
+*   
+*/
+
+/*!
+ *  \brief opis szablonu klasy
  *  Klasa opisujaca wektor w przestrzeni ( w tym przypadku w 2 wymiarach ).
  *  Za jego pomoca opisywane sa wierzcholki dowolnej figury jako wektory
  *  o poczatku w poczatku ukladu wspolrzednych. Wektory skladaja sie z 
@@ -19,38 +25,252 @@
  *  na korzystanie z danych, ich modyfikacje oraz podstawowa arytmetyke 
  *  wektorowa.
  */
+template <typename Templ_Type, unsigned int Templ_Size>
 class Vector {
 
 private:
 
-    double size[SIZE];     //Tablica wektora
+    Templ_Type size[Templ_Size];     //Tablica wektora
 
 public:
 
     Vector();
 
-    Vector(double [SIZE]);
+    Vector(const std::initializer_list<Templ_Type> &SizeList);
 
     Vector operator + (const Vector &v);
 
     Vector operator - (const Vector &v) const;
 
-    Vector operator * (const double &tmp);
+    Vector operator * (const Templ_Type &tmp);
 
-    Vector operator / (const double &tmp);
+    Vector operator / (const Templ_Type &tmp);
 
     bool   operator == (const Vector &V2) const;
 
-    const double &operator [] (int index) const;
+    const Templ_Type &operator [] (unsigned int index) const;
 
-    double &operator [] (int index);
+    Templ_Type &operator [] (unsigned int index);
 
     double lenght() const;
 
 };
 
-std::ostream &operator << (std::ostream &out, Vector const &tmp);
+template <typename Templ_Typ, unsigned int Templ_Size>
+Vector<Templ_Typ,Templ_Size>::Vector() {
+    for( Templ_Typ &rSize_i : size) rSize_i = 0;
+}
 
-std::istream &operator >> (std::istream &in, Vector &tmp);
+
+
+/******************************************************************************
+ *! \brief  Konstruktor klasy Vector.                                         |
+ |  Argumenty:                                                                |
+ |      tmp - Jednowymiarowa tablica typu jaki przyjmuje wektor.              |
+ |  Zwraca:                                                                   |
+ |      Tablice wypelniona wartosciami podanymi w argumencie.                 |
+ */
+template <typename Templ_Typ, unsigned int Templ_Size>
+Vector<Templ_Typ,Templ_Size>::Vector(const std::initializer_list<Templ_Typ> &SizeList):
+    Vector()
+{
+    assert(SizeList.size() <= Templ_Size);
+    int Ind = -1;
+    for (Templ_Typ Size_i : SizeList) size[++Ind] = Size_i;
+}
+
+
+/******************************************************************************
+ *! \brief Realizuje dodawanie dwoch wektorow.                                |
+ |  Argumenty:                                                                |
+ |      this - pierwszy skladnik dodawania,                                   |
+ |      v - drugi skladnik dodawania.                                         |
+ |  Zwraca:                                                                   |
+ |      Sume dwoch skladnikow przekazanych jako wskaznik                      |
+ |      na parametr.                                                          |
+ */
+template <typename Templ_Typ, unsigned int Templ_Size>
+Vector<Templ_Typ,Templ_Size> Vector<Templ_Typ,Templ_Size>::operator + (const Vector<Templ_Typ,Templ_Size> &v) {
+    Vector<Templ_Typ,Templ_Size> result;
+    for (unsigned int i = 0; i < Templ_Size; i++) {
+        result[i] = size[i] += v[i];
+    }
+    return result;
+}
+
+
+
+/******************************************************************************
+ *! \brief Realizuje odejmowanie dwoch wektorow.                              |
+ |  Argumenty:                                                                |
+ |      this - pierwszy skladnik odejmowania,                                 |
+ |      v - drugi skladnik odejmowania.                                       |
+ |  Zwraca:                                                                   |
+ |      Roznice dwoch skladnikow przekazanych jako wskaznik                   |
+ |      na parametr.                                                          |
+ */
+template <typename Templ_Typ, unsigned int Templ_Size>
+Vector<Templ_Typ,Templ_Size> Vector<Templ_Typ,Templ_Size>::operator - (const Vector<Templ_Typ,Templ_Size> &v) const {
+    Vector<Templ_Typ,Templ_Size> result;
+    for (unsigned int i = 0; i < Templ_Size; i++) {
+        result[i] = size[i] - v[i];
+    }
+    return result;
+}
+
+
+
+
+/******************************************************************************
+ *! \brief Realizuje mnozenie wektora przez liczbe zmiennoprzecinkowa.        |
+ |  Argumenty:                                                                |
+ |      this - pierwszy skladnik mnozenia (wektor),                           |
+ |      tmp - drugi skladnik mnozenia (liczba typu wektora).                  |
+ |  Zwraca:                                                                   |
+ |      Iloczyn dwoch skladnikow przekazanych jako wskaznik                   |
+ |      na parametr.                                                          |
+ */
+template<typename Templ_Typ, unsigned int Templ_Size>
+Vector<Templ_Typ,Templ_Size> Vector<Templ_Typ,Templ_Size>::operator * (const Templ_Typ &tmp) {
+    Vector<Templ_Typ,Templ_Size> result;
+    for (unsigned int i = 0; i < Templ_Size; i++) {
+        result[i] = size[i] *= tmp;
+    }
+    return result;
+}
+
+
+
+/******************************************************************************
+ * ! \brief ealizuje dzielenie wektora przez liczbe zmiennoprzecinkowa        |
+ |  Argumenty:                                                                |
+ |      this - licznik dzielenia,                                             |
+ |      tmp - mianownik dzielenia.                                            |
+ |  Zwraca:                                                                   |
+ |      Iloraz dwoch skladnikow przekazanych jako wskaznik                    |
+ |      na parametr.                                                          |
+ */
+template<typename Templ_Typ, unsigned int Templ_Size>
+Vector<Templ_Typ,Templ_Size> Vector<Templ_Typ,Templ_Size>::operator / (const Templ_Typ &tmp) {
+    Vector<Templ_Typ,Templ_Size> result;
+
+    if(tmp == 0)
+     throw("Nie dziel przez 0 !!!");
+
+    for (unsigned int i = 0; i < Templ_Size; i++) {
+        result[i] = size[i] / tmp;
+    }
+
+    return result;
+}
+
+
+/******************************************************************************
+ * ! \brief Funktor wektora.                                                  |
+ |  Argumenty:                                                                |
+ |      index - index wektora.                                                |
+ |  Zwraca:                                                                   |
+ |      Wartosc wektora w danym miejscu tablicy jako stala.                   |
+ */
+template<typename Templ_Typ, unsigned int Templ_Size>
+const Templ_Typ &Vector<Templ_Typ,Templ_Size>::operator [] (unsigned int index) const {
+    if (index < 0 || index >= Templ_Size) {
+        throw("Error: Wektor jest poza zasiegiem!");
+    }
+    return size[index];
+}
+
+
+
+
+/******************************************************************************
+ * ! \brief Funktor wektora.                                                  |
+ |  Argumenty:                                                                |
+ |      index - index wektora.                                                |
+ |  Zwraca:                                                                   |
+ |      Wartosc wektora w danym miejscu tablicy.                              |
+ */
+template<typename Templ_Typ, unsigned int Templ_Size>
+Templ_Typ &Vector<Templ_Typ,Templ_Size>::operator[](unsigned int index) {
+    if (index < 0 || index >= Templ_Size) {
+        throw("Error: Wektor jest poza zasiegiem!");
+    }
+    return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
+}
+
+
+
+
+
+/******************************************************************************
+ * ! \brief Oblicza dlugosc boku                                              |
+ |  Argumenty:                                                                |
+ |      this - zadany wektor                                                  |
+ |  Zwraca:                                                                   |
+ |      Dlugosc wektora jako double                                           |
+ */
+template<typename Templ_Typ, unsigned int Templ_Size>
+double Vector<Templ_Typ,Templ_Size>::lenght() const{
+    double result = 0, sum = 0;
+
+    for(unsigned int i = 0; i < Templ_Size; ++i){
+        sum += pow(size[i],2);
+    }
+    result = sqrt(sum);
+    return result;
+}
+
+
+
+/******************************************************************************
+ * ! \brief Przeciazenie operatora <<                                         |
+ |  Argumenty:                                                                |
+ |      out - strumien wejsciowy,                                             |
+ |      tmp - wektor.                                                         |
+ */
+template< typename Templ_Typ, unsigned int Templ_Size>
+std::ostream &operator << (std::ostream &out, Vector<Templ_Typ,Templ_Size> const &tmp){
+    for (unsigned int i = 0; i < Templ_Size; i++) {
+        out << std::setw(16) << std::fixed << std::setprecision(10) <<  tmp[i] << "\t";
+    }
+    return out;
+}
+
+
+
+/******************************************************************************
+ * ! \brief Przeciazenie operatora >>                                         |
+ |  Argumenty:                                                                |
+ |      in - strumien wejsciowy,                                              |
+ |      tmp - wektor.                                                         |
+ */
+template< typename Templ_Typ, unsigned int Templ_Size>
+std::istream &operator >> (std::istream &in, Vector<Templ_Typ,Templ_Size> &tmp){
+    for (unsigned int i = 0; i < Templ_Size; i++) {
+        in >> tmp[i];
+    }
+    std::cout << std::endl;
+    return in;
+}
+
+
+
+
+/******************************************************************************
+ * ! \brief Przeciazenie operatora ==                                         |
+ |  Argumenty:                                                                |
+ |      this - pierwszy wektor,                                               |
+ |      V2 - drugi wektor.                                                    |
+ |  Zgodnosc do 10 cyfr po przecinku.                                         |
+ */
+template<typename Templ_Typ, unsigned int Templ_Size>
+bool Vector<Templ_Typ,Templ_Size>::operator == (const Vector<Templ_Typ,Templ_Size> &V2) const {
+    for(unsigned int i = 0; i < Templ_Size ; ++i){
+        if( fabs(size[i] - V2.size[i]) > 1e-11 )
+            return 0;
+    }
+
+    return 1;
+}
 
 

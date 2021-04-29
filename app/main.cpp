@@ -13,9 +13,9 @@
 #include <string>
 
 #include "exampleConfig.h"
-#include "example.h"
-#include "vector.hh"
-#include "matrix.hh"
+#include "size.hh"
+#include "vector2D.hh"
+#include "matrix2D.hh"
 #include "rectangle.hh"
 #include "../include/lacze_do_gnuplota.hh"
 
@@ -133,8 +133,8 @@ int main() {
             << std::endl <<std::endl;
 
     Rectangle object;
-    Vector translator;
-    Matrix rotator;
+    Vector2D translator;
+    Matrix2D rotator;
     char option[1] ;
     double angle;
     unsigned int times;
@@ -159,14 +159,9 @@ int main() {
     
     */
 
-    
-    
-    double arg1[] = {10,10};
-    double arg2[] = {110,10};
-    double arg3[] = {110,60};
-    double arg4[] = {10,60};
-    Vector V1(arg1),V2(arg2),V3(arg3),V4(arg4);
-    Vector argumentsR[] = {V1,V2,V3,V4};
+  
+    Vector2D V1({10,10}),V2({110,10}),V3({110,60}),V4({10,60});
+    Vector2D argumentsR[] = {V1,V2,V3,V4};
     object = Rectangle(argumentsR);
 
 
@@ -240,14 +235,14 @@ int main() {
       }
     }
 
-    Matrix M;
-    double values[SIZE][SIZE] = { {2,4}, {4,16} };
-    M = Matrix(values);
+    Matrix2D M;
+    double values[SIZE_CO][SIZE_CO] = { {2,4}, {4,16} };
+    M = Matrix2D(values);
     std::cout << M;
     std::cout <<  "Wyznacznik wyliczony: " <<  M.det() << "    Wyznaczik rzeczywisty: 16"<< std::endl <<std::endl;
 
     std::cout << "Skalowalnosc programu: " << std::endl;
-    Matrix A,B,C;
+    Matrix2D A,B,C;
     
     A.create_rotation(50);
     B.create_rotation(-50);

@@ -1,12 +1,21 @@
 #pragma once
 
 #include "size.hh"
-#include "matrix.hh"
+#include "matrix2D.hh"
+#include "vector2D.hh"
 #include <iostream>
 #include <fstream>
 
 
+
+/*!
+*   \file
+*   \brief Opis klasy Rectangle
+*/
+
+
 /*********************************************************************
+ * ! \brief Opis klasy                                               |
  |  Klasa modeluje pojecie prostokata jako zbioru czterech           |
  |  wierzcholkow przedstawionych jako wektory 2D. Dane sa            |
  |  przechowywane w tablicy typu Wektor2D, wiec klasa korzysta       |
@@ -20,21 +29,21 @@
 class Rectangle {
   private:
 
-    Vector value[4];
+    Vector2D value[4];
 
   public:
 
-    Rectangle(Vector [4]);
+    Rectangle(Vector2D tmp[4]);
 
     Rectangle();
 
-    const Vector &operator [] (int index) const;
+    const Vector2D &operator [] (int index) const;
 
-    Vector &operator [] (int index);
+    Vector2D &operator [] (int index);
 
-    void Translate (Vector &tmp, unsigned int times);
+    void Translate (Vector2D &tmp, unsigned int times);
 
-    void Rotate (double angle, unsigned int times, Matrix &r_Matrix);
+    void Rotate (double angle, unsigned int times, Matrix2D &r_Matrix);
 
     bool compare_len_a() const;
 

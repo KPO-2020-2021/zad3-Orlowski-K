@@ -4,7 +4,7 @@
 
 
 /******************************************************************************
- |  Konstruktor klasy Rectangle.                                              |
+ * ! \brief Konstruktor klasy Rectangle.                                      |
  |  Argumenty:                                                                |
  |      Brak argumentow.                                                      |
  |  Zwraca:                                                                   |
@@ -12,20 +12,20 @@
  */
 Rectangle::Rectangle() {
     for (int i = 0; i < 4 ; i++) {
-        value[i] = Vector();
+        value[i] = Vector2D();
     }
 }
 
 
 
 /******************************************************************************
- |  Konstruktor klasy Rectangle.                                              |
+ * ! \brief onstruktor klasy Rectangle.                                       |
  |  Argumenty:                                                                |
  |      tmp - Jednowymiarowa tablica typu Vector                              |
  |  Zwraca:                                                                   |
  |      Tablice wypelniona wartosciami podanymi w argumencie                  |
  */ 
-Rectangle::Rectangle(Vector tmp[4]) {
+Rectangle::Rectangle(Vector2D tmp[4]) {
     for (int i = 0; i < 4 ; i++) {
         value[i] = tmp[i];
     }
@@ -33,13 +33,13 @@ Rectangle::Rectangle(Vector tmp[4]) {
 
 
 /******************************************************************************
- |  Funktor prostokata.                                                       |
+ * ! \brief Funktor prostokata.                                               |
  |  Argumenty:                                                                |
  |      index - index wierzcholka.                                            |
  |  Zwraca:                                                                   |
  |      Wartosc wierzcholka w danym miejscu tablicy jako wektor staly.        |
  */
-const Vector &Rectangle::operator [] (int index) const {
+const Vector2D &Rectangle::operator [] (int index) const {
     if (index < 0 || index >= 4) {
         throw( "Error: Wierzholek jest poza zasiegiem!" );
     }
@@ -49,13 +49,13 @@ const Vector &Rectangle::operator [] (int index) const {
 
 
 /******************************************************************************
- |  Funktor prostokata.                                                       |
+ * ! \brief Funktor prostokata.                                               |
  |  Argumenty:                                                                |
  |      index - index wierzcholka.                                            |
  |  Zwraca:                                                                   |
  |      Wartosc wierzcholka w danym miejscu tablicy jako wektor staly.        |
  */
- Vector &Rectangle::operator [] (int index) {
+ Vector2D &Rectangle::operator [] (int index) {
     if (index < 0 || index >= 4) {
         throw ("Error: Wierzholek jest poza zasiegiem!");
     }
@@ -65,7 +65,7 @@ const Vector &Rectangle::operator [] (int index) const {
 
 
 /********************************************************************
- | Realizuje translacje o podany wektor                             |
+ * !\brief Realizuje translacje o podany wektor                     |
  | Argumenty:                                                       |
  |    Zadany prostokat;                                             |
  |    tmp  - wektor translacji;                                     |
@@ -74,7 +74,7 @@ const Vector &Rectangle::operator [] (int index) const {
  |    Dodanie do kazdego wektora prostokata wektora translacji.     |
  |    W ten sposob prostokat jest przesuwany.                       |
  */
-void Rectangle::Translate (Vector &tmp,  unsigned int times){
+void Rectangle::Translate (Vector2D &tmp,  unsigned int times){
     tmp = tmp * times;
     for(int i = 0; i < 4; i ++){
         value[i] = value[i] + tmp;
@@ -84,7 +84,7 @@ void Rectangle::Translate (Vector &tmp,  unsigned int times){
 
 
 /************************************************************************
- * Realizuje translacje o podana macierz obrotu                         |         
+ * ! \brief Realizuje translacje o podana macierz obrotu                |         
  * Argumenty:                                                           |
  *    Zadany prostokat;                                                 |
  *    M_obr  - macierz obrotu;                                          |
@@ -92,7 +92,7 @@ void Rectangle::Translate (Vector &tmp,  unsigned int times){
  *    Mnozenie wektorow opisujacych wierzcholki z macierza obrotu       |
  *    W ten sposob prostokat jest obracany.                             |
  */
-void Rectangle::Rotate (double angle, unsigned int times, Matrix &r_Matrix){
+void Rectangle::Rotate (double angle, unsigned int times, Matrix2D &r_Matrix){
    
     
     for(unsigned int k = 0; k < times; k++){
@@ -106,14 +106,14 @@ void Rectangle::Rotate (double angle, unsigned int times, Matrix &r_Matrix){
 
 
 /************************************************************************
- * Realizuje porownywanie dlugosci bokow                                |         
+ * ! \brief Realizuje porownywanie dlugosci bokow                       |         
  * Argumenty:                                                           |
  *    Zadany prostokat;                                                 |
  *  Wynik dzialania:                                                    |
  *    Okresla czy boki sa rowne i wyswietla ich dlugosc                 |
  */
 bool  Rectangle::compare_len_a() const{
-    Vector a,b;
+    Vector2D a,b;
     double len1,len2;
     
     a = value[1] - value[0];
@@ -138,14 +138,14 @@ bool  Rectangle::compare_len_a() const{
 }
 
 /************************************************************************
- * Realizuje porownywanie dlugosci bokow                                |         
+ *! \brief  Realizuje porownywanie dlugosci bokow                       |         
  * Argumenty:                                                           |
  *    Zadany prostokat;                                                 |
  *  Wynik dzialania:                                                    |
  *    Okresla czy boki sa rowne i wyswietla ich dlugosc                 |
  */
 bool  Rectangle::compare_len_b() const{
-    Vector a,b;
+    Vector2D a,b;
     double len1,len2;
     a = value[3] - value[0];
     len1 = a.lenght();
@@ -171,7 +171,7 @@ bool  Rectangle::compare_len_b() const{
 
 
 /******************************************************************************
- |  Przeciazenie operatora <<                                                 |
+ * ! \brief Przeciazenie operatora <<                                         |
  |  Argumenty:                                                                |
  |      out - strumien wyjsciowy,                                             |
  |      tmp - prostokat.                                                      |
@@ -186,7 +186,7 @@ std::ostream& operator << ( std::ostream &out, const Rectangle &tmp ){
 
 
 /******************************************************************************
- |  Przeciazenie operatora << dla zapisu do pliku                             |
+ * ! \brief Przeciazenie operatora << dla zapisu do pliku                     |
  |  Argumenty:                                                                |
  |      outfile - strumien plikowy                                            |
  |      tmp - prostokat.                                                      |
@@ -218,7 +218,7 @@ std::ofstream& operator << ( std::ofstream &outfile, const Rectangle &tmp ){
 
 
 /******************************************************************************
- |  Przeciazenie operatora >>                                                 |
+ * ! \brief Przeciazenie operatora >>                                         |
  |  Argumenty:                                                                |
  |      in - strumien wejsciowy                                               |
  |      tmp - prostokat.                                                      |

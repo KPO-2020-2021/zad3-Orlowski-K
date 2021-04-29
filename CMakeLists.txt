@@ -38,7 +38,6 @@ find_lto(CXX)
 #                         Locate files (change as needed).
 # --------------------------------------------------------------------------------
 set(SOURCES          # All .cpp files in src/
-    src/example.cpp
     src/lacze_do_gnuplota
     src/matrix.cpp
     src/rectangle.cpp
